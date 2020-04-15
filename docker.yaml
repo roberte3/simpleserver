@@ -1,0 +1,28 @@
+version: '1.0'
+steps: 
+  main_clone: 
+    title: Cloning main repo... 
+    repo: 'roberte3/simpleserver'
+    revision: master
+    git: github
+  MyAppDockerImage: 
+    title: Building Docker MyAppDockerImage
+    type: Build
+    image_name: simpleserver
+    working_directory: ./
+    tag: full 
+    dockerfile: Dockerfile
+  MyUnitTests: 
+    title: Unit Test 
+    stage: Test
+    image: 'golang:1.12'
+    commands: 
+      - go test -v 
+  MyAppDockerImage: 
+    title: Building Docker image
+    type: Build
+    stage: Build
+    image_name: simpleserver
+    working_directory: ./
+    tag: modules
+    dockerfile: Dockerfile.mod
